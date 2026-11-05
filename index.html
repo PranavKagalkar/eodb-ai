@@ -1,0 +1,255 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EODB-AI | India's Business & Investment Navigator</title>
+<style>
+:root{--navy:#10223e;--blue:#245bc0;--light:#f4f7fc;--muted:#627189;--line:#dce4ef}
+*{box-sizing:border-box}
+body{margin:0;background:var(--light);font-family:Arial,Helvetica,sans-serif;color:var(--navy);line-height:1.55}
+header{background:var(--navy);color:white;padding:23px 7%}
+header h1{margin:0;font-size:27px}
+header p{margin:3px 0;color:#c9d6eb;font-size:13px}
+main{max-width:1100px;margin:auto;padding:35px 20px}
+.hero{padding:35px 0}
+.eyebrow{font-size:12px;font-weight:bold;color:var(--blue);letter-spacing:1.3px}
+h2{font-size:32px;line-height:1.2;margin:12px 0}
+h3{margin:0 0 10px}
+.hero p{max-width:750px;color:var(--muted)}
+.notice{display:inline-block;background:#e6eefc;color:#234d90;border-radius:7px;padding:8px 12px;font-size:12px}
+.tabs{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0}
+.tab{border:1px solid var(--line);background:white;color:var(--navy);padding:14px 19px;border-radius:9px;cursor:pointer;font-weight:bold}
+.tab.active{background:var(--navy);color:white}
+.panel{display:none;background:white;border:1px solid var(--line);border-radius:15px;padding:28px;box-shadow:0 5px 22px #10223e0a}
+.panel.active{display:block}
+.description{color:var(--muted);margin-bottom:22px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:17px}
+.field{margin-bottom:17px}
+label{display:block;font-size:13px;font-weight:bold;margin-bottom:7px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #cbd5e3;border-radius:8px;font:inherit;background:white}
+textarea{min-height:110px;resize:vertical}
+button.primary{background:var(--blue);color:white;border:0;padding:13px 22px;border-radius:8px;cursor:pointer;font-weight:bold}
+button.primary:hover{background:#17499f}
+.result{display:none;margin-top:23px;padding:20px;background:#eef4ff;border-left:4px solid var(--blue);border-radius:8px}
+.result h3{margin-top:0}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:25px}
+.card{background:white;border:1px solid var(--line);border-radius:12px;padding:19px}
+.card p{color:var(--muted);font-size:13px}
+.tag{font-size:11px;font-weight:bold;color:var(--blue);text-transform:uppercase}
+footer{text-align:center;padding:30px 15px;color:var(--muted);font-size:12px}
+@media(max-width:650px){.grid,.cards{grid-template-columns:1fr}h2{font-size:27px}.panel{padding:20px}}
+</style>
+</head>
+<body>
+<header>
+<h1>◆ EODB-AI</h1>
+<p>India's Business, Investment & Regulatory Intelligence Navigator</p>
+</header>
+<main>
+<section class="hero">
+<div class="eyebrow">NATIONAL PLATFORM · RESEARCH PROTOTYPE V0.1</div>
+<h2>Making it easier to do business in India.</h2>
+<p>An agentic AI platform designed to help entrepreneurs navigate regulations, foreign investors explore opportunities, and governments identify barriers to doing business across India.</p>
+<span class="notice">Independent educational prototype · Not an official Government of India service</span>
+</section>
+
+<nav class="tabs">
+<button class="tab active" data-target="business" onclick="showTab('business')">Start or Grow a Business</button>
+<button class="tab" data-target="invest" onclick="showTab('invest')">Invest in India / FDI</button>
+<button class="tab" data-target="government" onclick="showTab('government')">Government Intelligence</button>
+</nav>
+
+<section id="business" class="panel active">
+<h3>Business Navigator</h3>
+<p class="description">Tell us about your proposed or existing business. The planned AI agent will identify applicable requirements, official procedures and possible government support schemes.</p>
+<div class="grid">
+<div class="field">
+<label for="state">State or Union Territory</label>
+<select id="state"></select>
+</div>
+<div class="field">
+<label for="stage">Business stage</label>
+<select id="stage">
+<option>Starting a new business</option>
+<option>Operating an existing business</option>
+<option>Expanding a business</option>
+</select>
+</div>
+</div>
+<div class="field">
+<label for="activity">Describe your business activity</label>
+<textarea id="activity" placeholder="Example: I want to open a restaurant in Mumbai with 20 employees."></textarea>
+</div>
+<button class="primary" onclick="businessIntake()">Create Preliminary Intake</button>
+<div id="businessResult" class="result"></div>
+</section>
+
+<section id="invest" class="panel">
+<h3>FDI & Investment Navigator</h3>
+<p class="description">Explore the information needed to assess foreign investment, sectoral regulations, entry routes and potential state-level incentives.</p>
+<div class="grid">
+<div class="field">
+<label for="country">Investor country</label>
+<input id="country" placeholder="Example: Japan">
+</div>
+<div class="field">
+<label for="sector">Sector or business activity</label>
+<input id="sector" placeholder="Example: Electronics manufacturing">
+</div>
+<div class="field">
+<label for="investState">Proposed investment location</label>
+<select id="investState"></select>
+</div>
+<div class="field">
+<label for="amount">Proposed investment amount</label>
+<input id="amount" placeholder="Example: USD 25 million">
+</div>
+</div>
+<button class="primary" onclick="investmentIntake()">Create Investment Intake</button>
+<div id="investResult" class="result"></div>
+</section>
+
+<section id="government" class="panel">
+<h3>Government Regulatory Intelligence</h3>
+<p class="description">A proposed policymaker dashboard for analysing regulatory friction, comparing business journeys and identifying opportunities for administrative reform.</p>
+<div class="grid">
+<div class="field">
+<label for="govState">Geographic focus</label>
+<select id="govState"></select>
+</div>
+<div class="field">
+<label for="govSector">Sector focus</label>
+<select id="govSector">
+<option>All sectors</option>
+<option>Manufacturing</option>
+<option>Retail and e-commerce</option>
+<option>Hospitality and tourism</option>
+<option>Technology and services</option>
+<option>Healthcare</option>
+<option>Energy</option>
+<option>Other sectors</option>
+</select>
+</div>
+</div>
+<button class="primary" onclick="governmentIntake()">Explore Policy Dashboard</button>
+<div id="govResult" class="result"></div>
+</section>
+
+<div class="cards">
+<div class="card">
+<div class="tag">Evidence</div>
+<h3>Source-backed research</h3>
+<p>Planned: link regulatory requirements to authoritative government sources and verification dates.</p>
+</div>
+<div class="card">
+<div class="tag">AI agents</div>
+<h3>Intelligent workflows</h3>
+<p>Planned: coordinated agents for regulatory research, eligibility, compliance planning and verification.</p>
+</div>
+<div class="card">
+<div class="tag">Public policy</div>
+<h3>Regulatory reform</h3>
+<p>Planned: identify reported bottlenecks and generate evidence-based recommendations for policymakers.</p>
+</div>
+</div>
+</main>
+
+<footer>
+EODB-AI · Independent educational research prototype<br>
+Version 0.1 is an interface demonstration only. It does not yet use an AI model, verify legal requirements, store cases, or submit government applications. Do not enter confidential information.
+</footer>
+
+<script>
+const states=[
+"Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh",
+"Goa","Gujarat","Haryana","Himachal Pradesh","Jharkhand",
+"Karnataka","Kerala","Madhya Pradesh","Maharashtra","Manipur",
+"Meghalaya","Mizoram","Nagaland","Odisha","Punjab",
+"Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura",
+"Uttar Pradesh","Uttarakhand","West Bengal",
+"Andaman and Nicobar Islands","Chandigarh",
+"Dadra and Nagar Haveli and Daman and Diu","Delhi",
+"Jammu and Kashmir","Ladakh","Lakshadweep","Puducherry"
+];
+function populate(id,all=false){
+const el=document.getElementById(id);
+el.replaceChildren();
+const values=all?["All India",...states]:["Select a state or UT",...states];
+values.forEach((s,i)=>{
+const o=document.createElement("option");
+o.value=s;o.textContent=s;
+if(!all&&i===0)o.disabled=true;
+el.appendChild(o);
+});
+}
+populate("state");
+populate("investState",true);
+populate("govState",true);
+
+function showTab(id){
+document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));
+document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+document.querySelector('[data-target="'+id+'"]').classList.add("active");
+}
+function display(id,title,items){
+const el=document.getElementById(id);
+el.replaceChildren();
+const heading=document.createElement("h3");
+heading.textContent=title;
+el.appendChild(heading);
+items.forEach(([label,value])=>{
+const p=document.createElement("p");
+const strong=document.createElement("strong");
+strong.textContent=label+": ";
+p.appendChild(strong);
+p.appendChild(document.createTextNode(value));
+el.appendChild(p);
+});
+const note=document.createElement("p");
+note.textContent="Prototype intake only. No AI or regulatory verification has been performed.";
+el.appendChild(note);
+el.style.display="block";
+}
+function businessIntake(){
+const state=document.getElementById("state").value;
+const activity=document.getElementById("activity").value.trim();
+if(state==="Select a state or UT"||!activity){
+alert("Please select a location and describe your business.");
+return;
+}
+display("businessResult","Preliminary Business Intake",[
+["Location",state],
+["Business stage",document.getElementById("stage").value],
+["Activity",activity],
+["Next step","The future AI agent will research applicable central, state and local regulations."]
+]);
+}
+function investmentIntake(){
+const country=document.getElementById("country").value.trim();
+const sector=document.getElementById("sector").value.trim();
+if(!country||!sector){
+alert("Please enter the investor country and sector.");
+return;
+}
+display("investResult","Preliminary Investment Intake",[
+["Investor country",country],
+["Sector",sector],
+["Location",document.getElementById("investState").value],
+["Investment",document.getElementById("amount").value||"Not specified"],
+["Next step","The future AI agent will verify applicable FDI rules, entry routes and relevant investment requirements."]
+]);
+}
+function governmentIntake(){
+display("govResult","Policy Intelligence Preview",[
+["Geography",document.getElementById("govState").value],
+["Sector",document.getElementById("govSector").value],
+["Status","Government intelligence analytics will be enabled after a verified or clearly labelled synthetic dataset is connected."],
+["Next step","Build a regulatory friction dataset and AI-assisted policy analysis workflow."]
+]);
+}
+</script>
+</body>
+</html>
